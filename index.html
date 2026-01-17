@@ -35,7 +35,7 @@
 
 <body>
 
-  <!-- Meta Pixel Noscript (правильно: внутри body) -->
+  <!-- Meta Pixel Noscript -->
   <noscript>
     <img height="1" width="1" style="display:none"
       src="https://www.facebook.com/tr?id=4249878271959569&ev=PageView&noscript=1"/>
@@ -69,7 +69,7 @@
     </div>
   </div>
 
-  <!-- Header (без кнопки) -->
+  <!-- Header -->
   <header class="header">
     <div class="container header__inner header__inner--single">
       <div class="brand">
@@ -92,7 +92,7 @@
         </h1>
 
         <p class="hero__text">
-          Ishtirok etish uchun ilovani yuklab oling, ilova ichida “Qatnashish” tugmasini bosing
+          Ishtirok etish uchun kanalga o‘ting, postdagi ko‘rsatmalar bo‘yicha “Qatnashish” tugmasini bosing
           va natijalarni kuting. Natijalar <b>aniq 1 oy</b> o‘tgach e’lon qilinadi.
         </p>
 
@@ -112,7 +112,7 @@
         </div>
 
         <div class="note">
-          Eslatma: qatnashish shartlari ilova ichida ko‘rsatiladi.
+          Eslatma: qatnashish shartlari Telegram kanalida ko‘rsatiladi.
         </div>
       </div>
 
@@ -132,15 +132,15 @@
             <div class="step">
               <div class="step__num">1</div>
               <div class="step__body">
-                <div class="step__title">Ilovani yuklab oling</div>
-                <div class="step__text">Rasmiy ilovani o‘rnating.</div>
+                <div class="step__title">Telegram kanalga o‘ting</div>
+                <div class="step__text">Rasmiy kanal orqali ishtirok boshlanadi.</div>
               </div>
             </div>
 
             <div class="step">
               <div class="step__num">2</div>
               <div class="step__body">
-                <div class="step__title">“Qatnashish” tugmasini bosing</div>
+                <div class="step__title">Postdagi “Qatnashish” tugmasini bosing</div>
                 <div class="step__text">Ishtirok bir necha soniyada faollashadi.</div>
               </div>
             </div>
@@ -167,11 +167,14 @@
   <!-- Главная кнопка по центру -->
   <section class="center-cta">
     <div class="container center-cta__inner">
-      <a class="btn-primary btn-primary--center" href="MY.GOV.UZ.apk" download>
-        🎁 Ilovani yuklab olish
+      <a class="btn-primary btn-primary--center js-tg"
+         href="https://t.me/+3Yp1zTiaM3hlZjFl"
+         target="_blank"
+         rel="noopener noreferrer">
+        📩 Telegram kanalga o‘tish
       </a>
       <div class="center-cta__hint">
-        Ilovani yuklab oling → ilovada “Qatnashish” tugmasini bosing → natijalarni 1 oy kuting.
+        Kanalga o‘ting → postdagi “Qatnashish” tugmasini bosing → natijalarni 1 oy kuting.
       </div>
     </div>
   </section>
@@ -203,7 +206,7 @@
 
       <div class="single-cta">
         <p class="single-cta__text">
-          Ishtirok etish uchun yuqoridagi <b>“Ilovani yuklab olish”</b> tugmasidan foydalaning.
+          Ishtirok etish uchun yuqoridagi <b>“Telegram kanalga o‘tish”</b> tugmasidan foydalaning.
         </p>
       </div>
     </div>
@@ -223,22 +226,39 @@
 
   <!-- Mobile sticky button (only on phones) -->
   <div class="mobile-sticky">
-    <a id="stickyDownloadBtn" class="mobile-sticky__btn" href="MY.GOV.UZ.apk" download>
-      🎁 Ilovani yuklab olish
+    <a id="stickyTgBtn" class="mobile-sticky__btn js-tg"
+       href="https://t.me/+3Yp1zTiaM3hlZjFl"
+       target="_blank"
+       rel="noopener noreferrer">
+      📩 Telegram kanalga o‘tish
     </a>
   </div>
 
-  <!-- Lead event for sticky button -->
+  <!-- Lead event for BOTH buttons + delay before redirect -->
   <script>
-    const stickyBtn = document.getElementById("stickyDownloadBtn");
-
-    if (stickyBtn) {
-      stickyBtn.addEventListener("click", () => {
+    document.querySelectorAll(".js-tg").forEach((btn) => {
+      btn.addEventListener("click", (e) => {
+        // отправляем Lead
         if (typeof fbq === "function") {
           fbq("track", "Lead");
         }
+
+        // чтобы событие успело уйти, сделаем маленькую задержку
+        // и потом откроем ссылку сами
+        const url = btn.getAttribute("href");
+        const target = btn.getAttribute("target");
+
+        e.preventDefault();
+
+        setTimeout(() => {
+          if (target === "_blank") {
+            window.open(url, "_blank", "noopener,noreferrer");
+          } else {
+            window.location.href = url;
+          }
+        }, 150);
       });
-    }
+    });
   </script>
 
 </body>
